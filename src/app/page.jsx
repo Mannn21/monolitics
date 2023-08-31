@@ -24,7 +24,7 @@ export default function Page() {
 
 	return (
 		<div className="w-screen h-screen flex items-center justify-center">
-			<div className="w-80 h-96 p-2 flex flex-col items-center justify-center border border-red-500">
+			<div className="w-80 h-96 p-2 flex flex-col items-center justify-center border rounded-xl shadow-xl">
 				<div className="text-center h-16">
 					<h1 className="text-2xl font-bold tracking-widest text-center">
 						Sign In

@@ -1,0 +1,51 @@
+.sidebarContainer {
+    @apply relative h-screen box-border flex flex-row gap-2
+}
+
+.sidebarContent {
+    box-shadow: 4px 3px 5px 0px rgba(77,77,77,0.75);
+    -webkit-box-shadow: 4px 3px 5px 0px rgba(77,77,77,0.75);
+    -moz-box-shadow: 4px 3px 5px 0px rgba(77,77,77,0.75);
+    @apply h-full w-full box-border flex flex-col gap-10 py-6 p-3 
+}
+
+.headerWrapper {
+    @apply w-full h-16 flex flex-row gap-5 justify-start items-center 
+}
+
+.header {
+    @apply text-lg font-semibold tracking-wider
+}
+
+.sidebarWrapper {
+    height: calc(100% - 10.25rem);
+    @apply w-full bg-white flex flex-col gap-4 justify-start items-start
+}
+
+.sidebarBox {
+    @apply w-full p-1 flex flex-row gap-2 justify-start items-center text-black bg-white hover:bg-black hover:text-white
+}
+
+.span {
+    @apply font-medium text-base tracking-wider
+}
+
+.logoutWrapper {
+    @apply w-full h-5 flex justify-center items-center
+}
+
+.button {
+    @apply flex flex-row gap-3 justify-center items-center bg-red-700 w-full p-2 hover:text-white hover:bg-black
+}
+
+.buttonText {
+    @apply font-medium text-base tracking-wider
+}
+
+.iconWrapperOpen {
+    @apply absolute h-7 w-7 -right-10 top-11 flex flex-col justify-center items-center border-2 border-black hover:bg-black hover:text-white cursor-pointer;
+}
+
+.iconWrapperClosed {
+    @apply absolute h-7 w-7 left-2 top-11 flex flex-col justify-center items-center border-2 border-black hover:bg-black hover:text-white cursor-pointer;
+}

@@ -1,4 +1,5 @@
-import "./style.module.css";
+import Sidebar from "@/components/Sidebar";
+import "../global.css";
 
 export const metadata = {
 	title: "Dashboard | Monolitics Apps",
@@ -7,8 +8,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 	return (
-        <div>
-            {children}
-        </div>
+		<div className="content-layout">
+			<Sidebar />
+			<div className="content-container">{children}</div>
+		</div>
 	);
 }
