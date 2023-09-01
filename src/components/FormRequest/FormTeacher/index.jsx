@@ -8,7 +8,7 @@ export default function FormTeacher() {
 	const [request, setRequest] = useState({
 		name: "Aimanurrofi",
 		idUser: "9247-4786-12487-212-42",
-		type: "",
+		type: "Pilih jenis permohonan",
 		description: "",
 	});
 
@@ -52,12 +52,12 @@ export default function FormTeacher() {
 				<Select
 					id="request"
 					required
-					defaultValue="none"
+					value={request.type}
 					ref={typeRef}
 					onChange={e =>
 						setRequest(prev => ({ ...prev, type: e.target.value }))
 					}>
-					<option value="none" disabled selected>
+					<option disabled>
 						Pilih jenis permohonan
 					</option>
 					<option value="cuti">Cuti</option>
@@ -72,8 +72,12 @@ export default function FormTeacher() {
 					<Label htmlFor="comment" value="Deskripsi Permohonan" />
 				</div>
 				<Textarea
+					defaultValue={request.description}
 					ref={descriptionRef}
-					onChange={e => setRequest(prev => ({...prev, description: e.target.value}))}
+					onChange={e =>
+						setRequest(prev => ({ ...prev, description: e.target.value }))
+					}
+					maxLength={200}
 					id="comment"
 					placeholder="Masukkan deskripsi permohonan..."
 					required
