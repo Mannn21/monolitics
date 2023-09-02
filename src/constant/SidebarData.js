@@ -1,9 +1,9 @@
 import {AiOutlineUser, AiOutlineMail} from "react-icons/ai"
 import {MdOutlineSchool, MdOutlineDesk} from "react-icons/md"
 import {PiChalkboardTeacher} from "react-icons/pi"
-import {BsJournalBookmark} from "react-icons/bs"
+import {BsJournalBookmark, BsListTask} from "react-icons/bs"
 
-export const SidebarData = [
+export const SidebarLeader = [
     {
         id: 1,
         title: "Profil",
@@ -36,6 +36,60 @@ export const SidebarData = [
     },
     {
         id: 6,
+        title: "Laporan Bulanan",
+        icon: <BsJournalBookmark size={22}/>,
+        location: "/dashboard/reports"
+    },
+]
+
+export const SidebarTeacher = [
+    {
+        id: 1,
+        title: "Profil",
+        icon: <AiOutlineUser size={22}/>,
+        location: "/dashboard/profile"
+    },
+    {
+        id: 2,
+        title: "Penilaian Harian",
+        icon: <BsListTask size={22}/>,
+        location: "/dashboard/attendance"
+    },
+    {
+        id: 3,
+        title: "Pengajuan Izin",
+        icon: <AiOutlineMail size={22}/>,
+        location: "/dashboard/requests"
+    },
+    {
+        id: 4,
+        title: "Data Kelas",
+        icon: <MdOutlineDesk size={22}/>,
+        location: "/dashboard/classes"
+    },
+    {
+        id: 5,
+        title: "Laporan Bulanan",
+        icon: <BsJournalBookmark size={22}/>,
+        location: "/dashboard/reports"
+    },
+]
+
+export const SidebarStudent = [
+    {
+        id: 1,
+        title: "Profil",
+        icon: <AiOutlineUser size={22}/>,
+        location: "/dashboard/profile"
+    },
+    {
+        id: 2,
+        title: "Pengajuan Izin",
+        icon: <AiOutlineMail size={22}/>,
+        location: "/dashboard/requests"
+    },
+    {
+        id: 3,
         title: "Laporan Bulanan",
         icon: <BsJournalBookmark size={22}/>,
         location: "/dashboard/reports"

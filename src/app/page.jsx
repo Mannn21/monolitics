@@ -15,10 +15,28 @@ export default function Page() {
 	const login = e => {
 		e.preventDefault();
 
-		if (idUser !== "admin123") return setMessage("Id User is Not Found");
-		if (idUser === "admin123") {
+		if (idUser === "leader123") {
 			if (password !== "123") return setMessage("Wrong Password");
-			if (password === "123") return router.push("/dashboard");
+			if (password === "123") {
+				window.localStorage.setItem("role", "leader");
+				return router.push("/dashboard");
+			}
+		}
+		if (idUser === "teacher123") {
+			if (password !== "123") return setMessage("Wrong Password");
+			if (password === "123") {
+				window.localStorage.setItem("role", "teacher");
+				return router.push("/dashboard");
+			}
+		}
+		if (idUser === "student123") {
+			if (password !== "123") return setMessage("Wrong Password");
+			if (password === "123") {
+				window.localStorage.setItem("role", "student");
+				return router.push("/dashboard");
+			}
+		} else {
+			return setMessage("Id User not found");
 		}
 	};
 
