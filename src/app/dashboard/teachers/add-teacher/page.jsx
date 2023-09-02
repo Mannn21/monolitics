@@ -83,6 +83,23 @@ export default function AddUser() {
 
 	const requestData = async () => {
 		try {
+			if (
+				!data.name ||
+				!data.gender ||
+				!data.address ||
+				!data.classes ||
+				!data.date ||
+				!data.password ||
+				!data.phoneNumber ||
+				!data.salary
+			) {
+				return MySwal.fire({
+					title: "Data Undefined",
+					text: "Please input all datas teacher",
+					icon: "warning",
+					showConfirmButton: false,
+				});
+			}
 			if (image) {
 				const confirmationMessage = formatConfirmationMessage(data);
 				MySwal.mixin({
