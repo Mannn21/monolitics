@@ -1,0 +1,68 @@
+.container {
+    @apply w-full h-full
+}
+
+.headerContainer {
+    @apply w-full h-32 p-2 mb-2 flex flex-col justify-start items-center
+}
+
+.headerWrapper {
+    @apply w-full h-20 p-2 flex flex-row justify-between items-center
+}
+
+.headerButton {
+    @apply w-full h-8 p-2 flex flex-row justify-end items-center
+}
+
+.header {
+    @apply font-bold text-2xl text-black tracking-wider
+}
+
+.day {
+    @apply font-bold text-xl text-black tracking-wider
+}
+
+.tableContainer {
+    height: calc(100% - 8rem);
+    @apply w-full px-8 pb-3 overflow-auto overflow-x-auto
+}
+
+.tableWrapper {
+    @apply relative shadow-md sm:rounded-lg
+}
+
+.table {
+    @apply w-full text-sm text-left text-gray-500 dark:text-gray-400
+}
+
+.tableHead {
+    @apply sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400
+}
+
+.head {
+    @apply w-full h-auto p-2 flex flex-row justify-between items-center
+}
+
+.name {
+    @apply w-36 h-full flex flex-row justify-start items-center
+}
+
+.class {
+    @apply w-24 h-full flex flex-row justify-center items-center
+}
+
+.attendance {
+    @apply w-10 h-10 flex flex-row justify-center items-center border border-black
+}
+
+.buttonEdit {
+    @apply flex flex-row justify-center items-center gap-1 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900
+}
+
+.buttonSave {
+    @apply flex flex-row justify-center items-center gap-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
+}
+
+.buttonSend {
+    @apply flex flex-row justify-center items-center gap-1 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800
+}
