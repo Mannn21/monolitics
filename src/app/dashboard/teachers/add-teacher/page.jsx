@@ -18,10 +18,10 @@ export default function AddUser() {
 	const [image, setImage] = useState();
 	const [data, setData] = useState({
 		name: "",
-		role: "teacher",
 		gender: "",
+		role: "teacher",
 		classes: "",
-		date: "",
+		birthday: "",
 		phoneNumber: "",
 		address: "",
 		password: "",
@@ -34,11 +34,10 @@ export default function AddUser() {
 	const nameRef = useRef();
 	const genderRef = useRef();
 	const classRef = useRef();
-	const dateRef = useRef();
+	const birthdayRef = useRef();
 	const phoneNumberRef = useRef();
 	const addressRef = useRef();
 	const passwordRef = useRef();
-	// const confPasswordRef = useRef();
 	const imageRef = useRef(null);
 	const salaryRef = useRef();
 
@@ -68,7 +67,7 @@ export default function AddUser() {
 	};
 
 	const formatConfirmationMessage = data => {
-		const formattedDate = formatDate(data.date);
+		const formattedDate = formatDate(data.birthday);
 		const formattedSalary = formatted();
 		return `
 		Nama           : ${data.name}
@@ -84,14 +83,13 @@ export default function AddUser() {
 	const requestData = async () => {
 		try {
 			if (
-				!data.name ||
-				!data.gender ||
-				!data.address ||
-				!data.classes ||
-				!data.date ||
-				!data.password ||
-				!data.phoneNumber ||
-				!data.salary
+				data.name === "" ||
+				data.gender === "" ||
+				data.address === "" ||
+				data.birthday === "" ||
+				data.password === "" ||
+				data.phoneNumber === "" ||
+				data.salary === ""
 			) {
 				return MySwal.fire({
 					title: "Data Undefined",
@@ -144,6 +142,7 @@ export default function AddUser() {
 						}
 					} else {
 						const listRef = ref(storage);
+						setData(prev => ({...prev, confPassword: password}))
 						listAll(listRef)
 							.then(res => {
 								const foundReference = res.items.find(
@@ -203,13 +202,15 @@ export default function AddUser() {
 															method: "POST",
 															body: JSON.stringify({
 																name: data.name,
+																role: data.role,
 																gender: data.gender,
-																studentClass: data.studentClass,
-																dateBirthday: data.date,
+																classes: data.classes,
+																birthday: data.birthday,
 																phoneNumber: data.phoneNumber,
 																address: data.address,
 																password: data.password,
 																confPassword: data.confPassword,
+																salary: data.salary,
 																imageURL: downloadURL,
 																imageName: `${data.phoneNumber}${data.name}`,
 															}),
@@ -228,11 +229,10 @@ export default function AddUser() {
 															nameRef.current.value = "";
 															genderRef.current.value = "Choose Gender";
 															classRef.current.value = "Choose Class";
-															dateRef.current.value = "Choose Date";
+															birthdayRef.current.value = "Choose Date";
 															phoneNumberRef.current.value = "";
 															addressRef.current.value = "";
 															passwordRef.current.value = "";
-															confPasswordRef.current.value = "";
 															imageRef.current.value = null;
 															setFile(null);
 															setImage("");
@@ -437,7 +437,7 @@ export default function AddUser() {
 							ref={classRef}
 							className={`${styled.select} peer`}
 							onChange={e =>
-								setData(prev => ({ ...prev, studentClass: e.target.value }))
+								setData(prev => ({ ...prev, classes: e.target.value }))
 							}
 							defaultValue="Choose Class">
 							<option disabled>Choose Class</option>
@@ -450,18 +450,18 @@ export default function AddUser() {
 					<div className={`${styled.inputBox} group`}>
 						<input
 							type="date"
-							name="date"
-							id="date"
+							name="birthday"
+							id="birthday"
 							className={`${styled.input} peer`}
 							autoComplete="off"
-							ref={dateRef}
+							ref={birthdayRef}
 							onChange={e =>
-								setData(prev => ({ ...prev, date: e.target.value }))
+								setData(prev => ({ ...prev, birthday: e.target.value }))
 							}
 							required
 						/>
 						<label
-							htmlFor="date"
+							htmlFor="birthday"
 							className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
 							Birthday
 						</label>

@@ -18,9 +18,11 @@ export default function AddUser() {
 	const [image, setImage] = useState();
 	const [data, setData] = useState({
 		name: "",
+		parent: "",
+		role: "student",
 		gender: "",
-		studentClass: "",
-		date: "",
+		classes: "",
+		birthday: "",
 		phoneNumber: "",
 		address: "",
 		password: "",
@@ -30,13 +32,13 @@ export default function AddUser() {
 	});
 
 	const nameRef = useRef();
+	const parentRef = useRef();
 	const genderRef = useRef();
 	const classRef = useRef();
-	const dateRef = useRef();
+	const birthdayRef = useRef();
 	const phoneNumberRef = useRef();
 	const addressRef = useRef();
 	const passwordRef = useRef();
-	const confPasswordRef = useRef();
 	const imageRef = useRef(null);
 
 	const MySwal = withReactContent(Swal);
@@ -46,127 +48,236 @@ export default function AddUser() {
 		setFile(URL.createObjectURL(e.target.files[0]));
 	};
 
+	const formatDate = dateStr => {
+		const [year, month, day] = dateStr.split("-");
+		const formattedDate = `${day}-${month}-${year}`;
+		return formattedDate;
+	};
+
+	const formatConfirmationMessage = data => {
+		const formattedDate = formatDate(data.birthday);
+		return `
+		Nama           : ${data.name}
+		Orang Tua	   : ${data.parent}
+		Jenis Kelamin  : ${data.gender}
+		Kelas          : ${data.studentClass}
+		Tanggal Lahir  : ${formattedDate}
+		Nomor Telepon  : ${data.phoneNumber}
+		Alamat         : ${data.address}
+		`;
+	};
+
 	const requestData = async () => {
 		try {
+			if (
+				data.name === "" ||
+				data.gender === "" ||
+				data.address === "" ||
+				data.classes === "" ||
+				data.birthday === "" ||
+				data.password === "" ||
+				data.phoneNumber === "" ||
+				data.parent === ""
+			) {
+				return MySwal.fire({
+					title: "Data Undefined",
+					text: "Please input all datas teacher",
+					icon: "warning",
+					showConfirmButton: false,
+				});
+			}
 			if (image) {
-				const listRef = ref(storage);
-				listAll(listRef)
-					.then(res => {
-						const foundReference = res.items.find(
-							item => item._location.path_ === `${data.phoneNumber}${data.name}`
-						);
-						if (foundReference !== undefined)
-							return MySwal.fire({
-								title: "Data Already Exist",
-								icon: "error",
-								timer: 2000,
-								showConfirmButton: false,
-							});
-						if (foundReference === undefined) {
-							const storageRef = ref(
-								storage,
-								`${data.phoneNumber}${data.name}`
+				const confirmationMessage = formatConfirmationMessage(data);
+				MySwal.mixin({
+					customClass: {
+						confirmButton: "btn btn-success",
+						cancelButton: "btn btn-danger",
+					},
+					buttonsStyling: false,
+				});
+
+				const validatePassword = async () => {
+					const { value: password } = await MySwal.fire({
+						title: "Enter confirmation password",
+						input: "password",
+						inputLabel: "Password",
+						inputPlaceholder: "Enter confirmation password",
+						inputAttributes: {
+							maxlength: 10,
+							autocapitalize: "off",
+							autocorrect: "off",
+						},
+					});
+
+					if (password !== data.password) {
+						setData(prev => ({ ...prev, confPassword: password }));
+						const retryResult = await MySwal.fire({
+							title: "Password incorrect",
+							text: "Password you entered is incorrect. Do you want to retry or cancel?",
+							icon: "warning",
+							showCancelButton: true,
+							confirmButtonText: "Retry",
+							cancelButtonText: "Cancel",
+						});
+
+						if (retryResult.isConfirmed) {
+							validatePassword();
+						} else {
+							MySwal.fire(
+								"Cancelled",
+								"Your imaginary file is safe :)",
+								"error"
 							);
-							const uploadTask = uploadBytesResumable(storageRef, image);
-							MySwal.fire({
-								title: "Upload sedang berlangsung",
-								html: "Progress: <b>0%</b>",
-								allowEscapeKey: false,
-								allowOutsideClick: false,
-								didOpen: () => {
-									MySwal.showLoading();
-									const b = Swal.getHtmlContainer().querySelector("b");
-									uploadTask.on(
-										"state_changed",
-										snapshot => {
-											const progress =
-												(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-											b.innerHTML = `Progress: <b>${Math.round(progress)}%</b>`;
-										},
-										error => {
-											MySwal.fire({
-												title: error,
-												icon: "error",
-												timer: 2000,
-												showConfirmButton: false,
-											});
-										},
-										async () => {
-											try {
-												const downloadURL = await getDownloadURL(
-													uploadTask.snapshot.ref
-												);
-												setData(prev => ({ ...prev, imageURL: downloadURL }));
-
-												const response = await fetch("/api/users", {
-													method: "POST",
-													body: JSON.stringify({
-														name: data.name,
-														gender: data.gender,
-														studentClass: data.studentClass,
-														dateBirthday: data.date,
-														phoneNumber: data.phoneNumber,
-														address: data.address,
-														password: data.password,
-														confPassword: data.confPassword,
-														imageURL: downloadURL,
-														imageName: `${data.phoneNumber}${data.name}`,
-													}),
-													headers: {
-														"Content-Type": "application/json",
-													},
-												});
-
-												if (response.ok) {
-													await MySwal.fire({
-														title: "User Berhasil Dibuat",
-														icon: "success",
-														timer: 2000,
-														showConfirmButton: false,
-													});
-													nameRef.current.value = "";
-													genderRef.current.value = "Choose Gender";
-													classRef.current.value = "Choose Class";
-													dateRef.current.value = "Choose Date";
-													phoneNumberRef.current.value = "";
-													addressRef.current.value = "";
-													passwordRef.current.value = "";
-													confPasswordRef.current.value = "";
-													imageRef.current.value = null;
-													setFile(null);
-													setImage("");
-												} else {
-													await MySwal.fire({
-														title: "Data Gagal Dibuat",
+						}
+					} else {
+						const listRef = ref(storage);
+						listAll(listRef)
+							.then(res => {
+								const foundReference = res.items.find(
+									item =>
+										item._location.path_ === `${data.phoneNumber}${data.name}`
+								);
+								if (foundReference !== undefined)
+									return MySwal.fire({
+										title: "Data Already Exist",
+										icon: "error",
+										timer: 2000,
+										showConfirmButton: false,
+									});
+								if (foundReference === undefined) {
+									const storageRef = ref(
+										storage,
+										`${data.phoneNumber}${data.name}`
+									);
+									const uploadTask = uploadBytesResumable(storageRef, image);
+									MySwal.fire({
+										title: "Upload sedang berlangsung",
+										html: "Progress: <b>0%</b>",
+										allowEscapeKey: false,
+										allowOutsideClick: false,
+										didOpen: () => {
+											MySwal.showLoading();
+											const b = Swal.getHtmlContainer().querySelector("b");
+											uploadTask.on(
+												"state_changed",
+												snapshot => {
+													const progress =
+														(snapshot.bytesTransferred / snapshot.totalBytes) *
+														100;
+													b.innerHTML = `Progress: <b>${Math.round(
+														progress
+													)}%</b>`;
+												},
+												error => {
+													MySwal.fire({
+														title: error,
 														icon: "error",
 														timer: 2000,
 														showConfirmButton: false,
 													});
+												},
+												async () => {
+													try {
+														const downloadURL = await getDownloadURL(
+															uploadTask.snapshot.ref
+														);
+														setData(prev => ({
+															...prev,
+															imageURL: downloadURL,
+														}));
+
+														const response = await fetch("/api/users", {
+															method: "POST",
+															body: JSON.stringify({
+																name: data.name,
+																parent: data.parent,
+																gender: data.gender,
+																classes: data.classes,
+																birthday: data.birthday,
+																role: data.role,
+																phoneNumber: data.phoneNumber,
+																address: data.address,
+																password: data.password,
+																confPassword: data.confPassword,
+																imageURL: downloadURL,
+																imageName: `${data.phoneNumber}${data.name}`,
+															}),
+															headers: {
+																"Content-Type": "application/json",
+															},
+														});
+
+														if (response.ok) {
+															await MySwal.fire({
+																title: "User Berhasil Dibuat",
+																icon: "success",
+																timer: 2000,
+																showConfirmButton: false,
+															});
+															nameRef.current.value = "";
+															parentRef.current.value = "",
+															genderRef.current.value = "Choose Gender";
+															classRef.current.value = "Choose Class";
+															birthdayRef.current.value = "Choose Date";
+															phoneNumberRef.current.value = "";
+															addressRef.current.value = "";
+															passwordRef.current.value = "";
+															imageRef.current.value = null;
+															setFile(null);
+															setImage("");
+														} else {
+															await MySwal.fire({
+																title: "Data Gagal Dibuat",
+																icon: "error",
+																timer: 2000,
+																showConfirmButton: false,
+															});
+														}
+													} catch (error) {
+														await MySwal.fire({
+															title: error,
+															icon: "error",
+															timer: 2000,
+															showConfirmButton: false,
+														});
+													} finally {
+														MySwal.close();
+													}
 												}
-											} catch (error) {
-												await MySwal.fire({
-													title: error,
-													icon: "error",
-													timer: 2000,
-													showConfirmButton: false,
-												});
-											} finally {
-												MySwal.close();
-											}
-										}
-									);
-								},
+											);
+										},
+									});
+								}
+							})
+							.catch(error => {
+								MySwal.fire({
+									title: error,
+									icon: "error",
+									timer: 2000,
+									showConfirmButton: false,
+								});
 							});
-						}
-					})
-					.catch(error => {
-						MySwal.fire({
-							title: error,
-							icon: "error",
-							timer: 2000,
-							showConfirmButton: false,
-						});
-					});
+					}
+				};
+
+				MySwal.fire({
+					title: "Continue ?",
+					html: `<pre style="text-align: left">${confirmationMessage}</pre>`,
+					imageUrl: file,
+					imageWidth: 150,
+					imageHeight: 150,
+					imageAlt: data.name,
+					showCancelButton: true,
+					confirmButtonText: "Yes, create it!",
+					cancelButtonText: "No, cancel!",
+					reverseButtons: true,
+				}).then(async result => {
+					if (result.isConfirmed) {
+						validatePassword();
+					} else if (result.dismiss === Swal.DismissReason.cancel) {
+						MySwal.fire("Cancelled", "Your request is cancelled :)", "error");
+					}
+				});
 			}
 		} catch (error) {
 			await MySwal.fire({
@@ -181,7 +292,7 @@ export default function AddUser() {
 	return (
 		<div className={styled.container}>
 			<div className={styled.headerWrapper}>
-				<h2 className={styled.header}>Add Student</h2>
+				<h2 className={styled.header}>Add Teacher</h2>
 			</div>
 			<div className={styled.form}>
 				<div className={styled.imageWrapper}>
@@ -287,6 +398,68 @@ export default function AddUser() {
 					<div className={styled.inputBox}>
 						<input
 							type="text"
+							name="parent"
+							id="parent"
+							ref={parentRef}
+							className={`${styled.input} peer`}
+							autoComplete="off"
+							onChange={e =>
+								setData(prev => ({ ...prev, parent: e.target.value }))
+							}
+							placeholder=" "
+							required
+						/>
+						<label
+							htmlFor="parent"
+							className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+							Parent
+						</label>
+					</div>
+				</div>
+				<div className={styled.inputWrapper}>
+					<div className={`${styled.inputBox} group`}>
+						<label htmlFor="select_class" className="sr-only">
+							Choose Class
+						</label>
+						<select
+							id="select_class"
+							ref={classRef}
+							className={`${styled.select} peer`}
+							onChange={e =>
+								setData(prev => ({ ...prev, classes: e.target.value }))
+							}
+							defaultValue="Choose Class">
+							<option disabled>Choose Class</option>
+							<option value="Pagi 1">Pagi 1</option>
+							<option value="Pagi 2">Pagi 2</option>
+							<option value="Siang 1">Siang 1</option>
+							<option value="Siang 2">Siang 2</option>
+						</select>
+					</div>
+					<div className={`${styled.inputBox} group`}>
+						<input
+							type="birthday"
+							name="birthday"
+							id="birthday"
+							className={`${styled.input} peer`}
+							autoComplete="off"
+							ref={birthdayRef}
+							onChange={e =>
+								setData(prev => ({ ...prev, birthday: e.target.value }))
+							}
+							required
+						/>
+						<label
+							htmlFor="birthday"
+							className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+							Birthday
+						</label>
+					</div>
+				</div>
+				<div className="w-full grid md:grid-cols-2 md:gap-6">
+					<div className="relative z-0 w-full mb-6 group">
+						<input
+							type="text"
 							name="address"
 							id="address"
 							ref={addressRef}
@@ -304,48 +477,6 @@ export default function AddUser() {
 							Address
 						</label>
 					</div>
-				</div>
-				<div className={styled.inputWrapper}>
-					<div className={`${styled.inputBox} group`}>
-						<label htmlFor="select_class" className="sr-only">
-							Choose Class
-						</label>
-						<select
-							id="select_class"
-							ref={classRef}
-							className={`${styled.select} peer`}
-							onChange={e =>
-								setData(prev => ({ ...prev, studentClass: e.target.value }))
-							}
-							defaultValue="Choose Class">
-							<option disabled>Choose Class</option>
-							<option value="Pagi 1">Pagi 1</option>
-							<option value="Pagi 2">Pagi 2</option>
-							<option value="Siang 1">Siang 1</option>
-							<option value="Siang 2">Siang 2</option>
-						</select>
-					</div>
-					<div className={`${styled.inputBox} group`}>
-						<input
-							type="date"
-							name="date"
-							id="date"
-							className={`${styled.input} peer`}
-							autoComplete="off"
-							ref={dateRef}
-							onChange={e =>
-								setData(prev => ({ ...prev, date: e.target.value }))
-							}
-							required
-						/>
-						<label
-							htmlFor="date"
-							className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-							Birthday
-						</label>
-					</div>
-				</div>
-				<div className="w-full grid md:grid-cols-2 md:gap-6">
 					<div className="relative z-0 w-full mb-6 group">
 						<input
 							type="password"
@@ -366,31 +497,8 @@ export default function AddUser() {
 							Password
 						</label>
 					</div>
-					<div className="relative z-0 w-full mb-6 group">
-						<input
-							type="password"
-							name="confPassword"
-							id="confPassword"
-							ref={confPasswordRef}
-							className={`${styled.input} peer`}
-							placeholder=" "
-							autoComplete="off"
-							onChange={e =>
-								setData(prev => ({ ...prev, confPassword: e.target.value }))
-							}
-							required
-						/>
-						<label
-							htmlFor="confPassword"
-							className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-							Confirm password
-						</label>
-					</div>
 				</div>
-				<button
-					// type="submit"
-					className={styled.button}
-					onClick={() => requestData()}>
+				<button className={styled.button} onClick={() => requestData()}>
 					Submit
 				</button>
 			</div>

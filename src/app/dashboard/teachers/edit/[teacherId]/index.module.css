@@ -1,0 +1,65 @@
+.container {
+    @apply w-full h-auto p-8 flex flex-col gap-2
+}
+
+.headerWrapper {
+    @apply w-full h-9 flex flex-col justify-start items-center
+}
+
+.header {
+    @apply font-bold text-xl tracking-wider text-black
+}
+
+.form {
+    height: calc(100% - 2.75rem);
+    @apply w-full flex flex-col gap-3 justify-start items-center
+}
+
+.imageWrapper {
+    @apply w-1/2 h-auto flex flex-col gap-3 justify-center items-center
+}
+
+.image {
+    @apply relative w-32 h-32 overflow-hidden bg-gray-200 rounded-full dark:bg-gray-600
+}
+
+.svg {
+    @apply absolute w-36 h-36 text-gray-400 -left-2
+}
+
+.imageLabel {
+    @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white
+}
+
+.inputImage {
+    @apply block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+}
+
+.textImage {
+    @apply mt-1 text-sm text-gray-500 dark:text-gray-300
+}
+
+.inputWrapper {
+    @apply w-full grid md:grid-cols-2 md:gap-6
+}
+
+.inputBox {
+    @apply relative z-0 w-full mb-6
+}
+
+.input {
+    @apply block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600
+}
+
+.datepicker {
+    @apply bg-gray-50 border-0 border-b-2 border-gray-300 text-gray-900 sm:text-sm focus:outline-none appearance-none focus:ring-0 focus:border-blue-500 block w-full p-2.5
+}
+
+
+.select {
+    @apply block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-blue-600
+}
+
+.button {
+    @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
+}
