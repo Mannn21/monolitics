@@ -7,7 +7,7 @@ import styled from "./index.module.css";
 import { AiFillEdit, AiFillSave } from "react-icons/ai";
 
 export default function Page() {
-	const [isDisable, setIsDisable] = useState(false);
+	const [isDisable, setIsDisable] = useState(true);
 	dayjs.extend(locale);
 	const today = dayjs();
 	const day = today.format("dddd");
@@ -22,30 +22,27 @@ export default function Page() {
 				</div>
 				<div className={styled.headerButton}>
 					{isDisable === false ? (
+						<button
+							type="button"
+							onClick={() => setIsDisable(true)}
+							className={styled.buttonSave}>
+							<AiFillSave size={15} />
+							Save Data
+						</button>
+					) : (
 						<div className="flex flex-row gap-3">
-							<button
-								type="button"
-								onClick={() => setIsDisable(true)}
-								className={styled.buttonSend}>
+							<button type="button" className={styled.buttonSend}>
 								<AiFillEdit size={15} />
 								Send Data
 							</button>
 							<button
 								type="button"
-								onClick={() => setIsDisable(true)}
+								onClick={() => setIsDisable(false)}
 								className={styled.buttonEdit}>
 								<AiFillEdit size={15} />
 								Update Data
 							</button>
 						</div>
-					) : (
-						<button
-							type="button"
-							onClick={() => setIsDisable(false)}
-							className={styled.buttonSave}>
-							<AiFillSave size={15} />
-							Save Data
-						</button>
 					)}
 				</div>
 			</div>
