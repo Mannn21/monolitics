@@ -11,7 +11,7 @@ export default function Page() {
 					<label for="table-search" className="sr-only">
 						Search
 					</label>
-					<div className="relative">
+					<div className="relative px-3">
 						<div className={styled.searchBox}>
 							<svg
 								className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -38,7 +38,7 @@ export default function Page() {
 					<div>
 						<Link
 							type="button"
-                            href={"/dashboard/classes/add-class"}
+                            href={"/dashboard/classroom/add-student"}
 							className={styled.button}>
                             <AiOutlinePlus size={15}/>
 							Add Class
@@ -48,29 +48,26 @@ export default function Page() {
 				<table className={styled.table}>
 					<thead className={styled.tHead}>
 						<tr>
-							<th scope="col" className="p-4">
-								<div className="flex items-center">
-									<input
-										id="checkbox-all-search"
-										type="checkbox"
-										className={styled.checkbox}
-									/>
-									<label for="checkbox-all-search" className="sr-only">
-										checkbox
-									</label>
-								</div>
-							</th>
 							<th scope="col" className="px-6 py-3">
 								Name
 							</th>
 							<th scope="col" className="px-6 py-3">
-								Position
+								Age
+							</th>
+							<th scope="col" className="px-6 py-3">
+								Address
+							</th>
+							<th scope="col" className="px-6 py-3">
+								Phone Number
 							</th>
 							<th scope="col" className="px-6 py-3">
 								Status
 							</th>
-							<th scope="col" className="px-6 py-3">
-								Action
+							<th scope="col" className="px-6 py-3 text-center">
+								Edit
+							</th>
+							<th scope="col" className="px-6 py-3 text-center">
+								Delete
 							</th>
 						</tr>
 					</thead>

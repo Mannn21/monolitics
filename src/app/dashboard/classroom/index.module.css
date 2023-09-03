@@ -11,7 +11,7 @@
 }
 
 .searchBox {
-    @apply absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none
+    @apply absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none
 }
 
 .searchInput {
