@@ -65,7 +65,7 @@ export const SidebarTeacher = [
         id: 4,
         title: "Data Kelas",
         icon: <MdOutlineDesk size={22}/>,
-        location: "/dashboard/classes"
+        location: "/dashboard/classroom"
     },
     {
         id: 5,

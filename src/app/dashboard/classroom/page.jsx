@@ -1,13 +1,14 @@
 import Link from "next/link"
 import {AiOutlinePlus} from "react-icons/ai"
 import styled from "./index.module.css";
+import UserTable from "../../../components/ClassTable";
 
 export default function Page() {
 	return (
 		<div>
 			<div className={styled.wrapper}>
 				<div className={styled.searchContainer}>
-					<label htmlFor="table-search" className="sr-only">
+					<label for="table-search" className="sr-only">
 						Search
 					</label>
 					<div className="relative">
@@ -54,7 +55,7 @@ export default function Page() {
 										type="checkbox"
 										className={styled.checkbox}
 									/>
-									<label htmlFor="checkbox-all-search" className="sr-only">
+									<label for="checkbox-all-search" className="sr-only">
 										checkbox
 									</label>
 								</div>
@@ -74,47 +75,7 @@ export default function Page() {
 						</tr>
 					</thead>
 					<tbody>
-						<tr className={styled.tr}>
-							<td className="w-4 p-4">
-								<div className="flex items-center">
-									<input
-										id="checkbox-table-search-1"
-										type="checkbox"
-										className={styled.checkbox}
-									/>
-									<label for="checkbox-table-search-1" className="sr-only">
-										checkbox
-									</label>
-								</div>
-							</td>
-							<th scope="row" className={styled.th}>
-								<img
-									className="w-10 h-10 rounded-full"
-									src="/docs/images/people/profile-picture-1.jpg"
-									alt="Jese image"
-								/>
-								<div className="pl-3">
-									<div className="text-base font-semibold">Neil Sims</div>
-									<div className="font-normal text-gray-500">
-										neil.sims@flowbite.com
-									</div>
-								</div>
-							</th>
-							<td className="px-6 py-4">React Developer</td>
-							<td className="px-6 py-4">
-								<div className="flex items-center">
-									<div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>{" "}
-									Online
-								</div>
-							</td>
-							<td className="px-6 py-4">
-								<a
-									href="#"
-									className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-									Edit user
-								</a>
-							</td>
-						</tr>
+						<UserTable />
 					</tbody>
 				</table>
 			</div>
