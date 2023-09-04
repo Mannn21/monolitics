@@ -80,8 +80,8 @@ export default function AddUser() {
 				data.parent === ""
 			) {
 				return MySwal.fire({
-					title: "Data Undefined",
-					text: "Please input all datas teacher",
+					title: "Data Tidak Lengkap",
+					text: "Tolong masukkan data lengkap",
 					icon: "warning",
 					showConfirmButton: false,
 				});
@@ -98,10 +98,10 @@ export default function AddUser() {
 
 				const validatePassword = async () => {
 					const { value: password } = await MySwal.fire({
-						title: "Enter confirmation password",
+						title: "Masukkan Password Konfirmasi",
 						input: "password",
 						inputLabel: "Password",
-						inputPlaceholder: "Enter confirmation password",
+						inputPlaceholder: "Konfirmasi Password",
 						inputAttributes: {
 							maxlength: 10,
 							autocapitalize: "off",
@@ -112,20 +112,20 @@ export default function AddUser() {
 					if (password !== data.password) {
 						setData(prev => ({ ...prev, confPassword: password }));
 						const retryResult = await MySwal.fire({
-							title: "Password incorrect",
-							text: "Password you entered is incorrect. Do you want to retry or cancel?",
+							title: "Password Tidak Sesuai",
+							text: "Password kamu tidak sesuai. Apakah ingin memasukkan ulang?",
 							icon: "warning",
 							showCancelButton: true,
-							confirmButtonText: "Retry",
-							cancelButtonText: "Cancel",
+							confirmButtonText: "Ulangi",
+							cancelButtonText: "Batalkan",
 						});
 
 						if (retryResult.isConfirmed) {
 							validatePassword();
 						} else {
 							MySwal.fire(
-								"Cancelled",
-								"Your imaginary file is safe :)",
+								"Dibatalkan",
+								"Gagal Membuat Data Siswa Baru",
 								"error"
 							);
 						}
@@ -139,7 +139,7 @@ export default function AddUser() {
 								);
 								if (foundReference !== undefined)
 									return MySwal.fire({
-										title: "Data Already Exist",
+										title: "Data Sudah Ada",
 										icon: "error",
 										timer: 2000,
 										showConfirmButton: false,
@@ -209,16 +209,16 @@ export default function AddUser() {
 
 														if (response.ok) {
 															await MySwal.fire({
-																title: "User Berhasil Dibuat",
+																title: "Siswa Baru Berhasil Dibuat",
 																icon: "success",
 																timer: 2000,
 																showConfirmButton: false,
 															});
 															nameRef.current.value = "";
 															parentRef.current.value = "",
-															genderRef.current.value = "Choose Gender";
-															classRef.current.value = "Choose Class";
-															birthdayRef.current.value = "Choose Date";
+															genderRef.current.value = "Pilih Jenis Kelamin";
+															classRef.current.value = "Pilih Kelas";
+															birthdayRef.current.value = "Masukkan Tanggal Lahir";
 															phoneNumberRef.current.value = "";
 															addressRef.current.value = "";
 															passwordRef.current.value = "";
@@ -261,21 +261,21 @@ export default function AddUser() {
 				};
 
 				MySwal.fire({
-					title: "Continue ?",
+					title: "Lanjutkan ?",
 					html: `<pre style="text-align: left">${confirmationMessage}</pre>`,
 					imageUrl: file,
 					imageWidth: 150,
 					imageHeight: 150,
 					imageAlt: data.name,
 					showCancelButton: true,
-					confirmButtonText: "Yes, create it!",
-					cancelButtonText: "No, cancel!",
+					confirmButtonText: "Ya, Lanjutkan!",
+					cancelButtonText: "Tidak, Batalkan!",
 					reverseButtons: true,
 				}).then(async result => {
 					if (result.isConfirmed) {
 						validatePassword();
 					} else if (result.dismiss === Swal.DismissReason.cancel) {
-						MySwal.fire("Cancelled", "Your request is cancelled :)", "error");
+						MySwal.fire("Dibatalkan", "Pembuatan Siswa Dibatalkan", "error");
 					}
 				});
 			}
@@ -292,7 +292,7 @@ export default function AddUser() {
 	return (
 		<div className={styled.container}>
 			<div className={styled.headerWrapper}>
-				<h2 className={styled.header}>Add Teacher</h2>
+				<h2 className={styled.header}>Tambah Siswa</h2>
 			</div>
 			<div className={styled.form}>
 				<div className={styled.imageWrapper}>
@@ -318,7 +318,7 @@ export default function AddUser() {
 						)}
 					</div>
 					<label className={styled.imageLabel} htmlFor="user_avatar">
-						Upload Image
+						Foto Profile Siswa
 					</label>
 					<input
 						className={styled.inputImage}
@@ -331,8 +331,7 @@ export default function AddUser() {
 						}}
 					/>
 					<div className={styled.textImage} id="user_avatar_help">
-						A profile picture is useful to confirm your are logged into your
-						account
+						Upload foto profile siswa
 					</div>
 				</div>
 				<div className={styled.inputWrapper}>
@@ -353,12 +352,12 @@ export default function AddUser() {
 						<label
 							htmlFor="name"
 							className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-							Name
+							Nama
 						</label>
 					</div>
 					<div className={`${styled.inputBox} group`}>
 						<label htmlFor="select_gender" className="sr-only">
-							Choose Gender
+							Pilih Jenis Kelamin
 						</label>
 						<select
 							id="select_gender"
@@ -367,8 +366,8 @@ export default function AddUser() {
 							onChange={e =>
 								setData(prev => ({ ...prev, gender: e.target.value }))
 							}
-							defaultValue="Choose Gender">
-							<option disabled>Choose Gender</option>
+							defaultValue="Pilih Jenis Kelamin">
+							<option disabled>Pilih Jenis Kelamin</option>
 							<option value="Laki - Laki">Laki - Laki</option>
 							<option value="Perempuan">Perempuan</option>
 						</select>
@@ -392,7 +391,7 @@ export default function AddUser() {
 						<label
 							htmlFor="phone"
 							className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-							Phone number
+							Nomor Telepon
 						</label>
 					</div>
 					<div className={styled.inputBox}>
@@ -412,14 +411,14 @@ export default function AddUser() {
 						<label
 							htmlFor="parent"
 							className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-							Parent
+							Orang Tua
 						</label>
 					</div>
 				</div>
 				<div className={styled.inputWrapper}>
 					<div className={`${styled.inputBox} group`}>
 						<label htmlFor="select_class" className="sr-only">
-							Choose Class
+							Pilih Kelas
 						</label>
 						<select
 							id="select_class"
@@ -428,8 +427,8 @@ export default function AddUser() {
 							onChange={e =>
 								setData(prev => ({ ...prev, classes: e.target.value }))
 							}
-							defaultValue="Choose Class">
-							<option disabled>Choose Class</option>
+							defaultValue="Pilih Kelas">
+							<option disabled>Pilih Kelas</option>
 							<option value="Pagi 1">Pagi 1</option>
 							<option value="Pagi 2">Pagi 2</option>
 							<option value="Siang 1">Siang 1</option>
@@ -452,7 +451,7 @@ export default function AddUser() {
 						<label
 							htmlFor="birthday"
 							className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-							Birthday
+							Masukkan Tanggal Lahir
 						</label>
 					</div>
 				</div>
@@ -474,7 +473,7 @@ export default function AddUser() {
 						<label
 							htmlFor="address"
 							className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-							Address
+							Alamat
 						</label>
 					</div>
 					<div className="relative z-0 w-full mb-6 group">
@@ -499,7 +498,7 @@ export default function AddUser() {
 					</div>
 				</div>
 				<button className={styled.button} onClick={() => requestData()}>
-					Submit
+					Kirim
 				</button>
 			</div>
 		</div>

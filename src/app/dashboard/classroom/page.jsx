@@ -1,5 +1,5 @@
-import Link from "next/link"
-import {AiOutlinePlus} from "react-icons/ai"
+import Link from "next/link";
+import { AiOutlinePlus } from "react-icons/ai";
 import styled from "./index.module.css";
 import UserTable from "../../../components/ClassTable";
 
@@ -7,6 +7,9 @@ export default function Page() {
 	return (
 		<div>
 			<div className={styled.wrapper}>
+				<div className="p-5 flex flex-row justify-start items-center">
+					<h1 className="text-xl font-bold tracking-wider">Daftar Siswa Kelas</h1>
+				</div>
 				<div className={styled.searchContainer}>
 					<label for="table-search" className="sr-only">
 						Search
@@ -32,16 +35,16 @@ export default function Page() {
 							type="text"
 							id="table-search-users"
 							className={styled.searchInput}
-							placeholder="Search for users"
+							placeholder="Cari siswa..."
 						/>
 					</div>
 					<div>
 						<Link
 							type="button"
-                            href={"/dashboard/classroom/add-student"}
+							href={"/dashboard/classroom/add-student"}
 							className={styled.button}>
-                            <AiOutlinePlus size={15}/>
-							Add Class
+							<AiOutlinePlus size={15} />
+							Tambah Siswa
 						</Link>
 					</div>
 				</div>
@@ -49,16 +52,16 @@ export default function Page() {
 					<thead className={styled.tHead}>
 						<tr>
 							<th scope="col" className="px-6 py-3">
-								Name
+								Nama
 							</th>
 							<th scope="col" className="px-6 py-3">
-								Age
+								Usia
 							</th>
 							<th scope="col" className="px-6 py-3">
-								Address
+								Alamat
 							</th>
 							<th scope="col" className="px-6 py-3">
-								Phone Number
+								Nomor Telepon
 							</th>
 							<th scope="col" className="px-6 py-3">
 								Status
@@ -67,7 +70,7 @@ export default function Page() {
 								Edit
 							</th>
 							<th scope="col" className="px-6 py-3 text-center">
-								Delete
+								Hapus
 							</th>
 						</tr>
 					</thead>

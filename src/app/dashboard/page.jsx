@@ -1,7 +1,10 @@
 export default function Page() {
     return (
         <div>
-            Dashboard Page
+            <div>
+                
+            </div>
+            <div></div>
         </div>
     )
 }

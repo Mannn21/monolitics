@@ -17,7 +17,7 @@ export default function Page() {
 		<div className={styled.container}>
 			<div className={styled.headerContainer}>
 				<div className={styled.headerWrapper}>
-					<h1 className={styled.header}>Attendance Students</h1>
+					<h1 className={styled.header}>Data Harian Siswa</h1>
 					<span className={styled.day}>{`${day}, ${formattedDate}`}</span>
 				</div>
 				<div className={styled.headerButton}>
@@ -27,20 +27,20 @@ export default function Page() {
 							onClick={() => setIsDisable(true)}
 							className={styled.buttonSave}>
 							<AiFillSave size={15} />
-							Save Data
+							Simpan Data
 						</button>
 					) : (
 						<div className="flex flex-row gap-3">
 							<button type="button" className={styled.buttonSend}>
 								<AiFillEdit size={15} />
-								Send Data
+								Kirim Data
 							</button>
 							<button
 								type="button"
 								onClick={() => setIsDisable(false)}
 								className={styled.buttonEdit}>
 								<AiFillEdit size={15} />
-								Update Data
+								Ubah Data
 							</button>
 						</div>
 					)}
@@ -61,45 +61,45 @@ export default function Page() {
 									scope="col"
 									rowSpan="2"
 									className="px-6 py-3 text-center bg-red-400">
-									Name
+									Nama
 								</th>
 								<th
 									scope="col"
 									rowSpan="2"
 									className="px-6 py-3 text-center bg-yellow-400">
-									Class
+									Kelas
 								</th>
 								<th
 									scope="col"
 									colSpan="4"
 									className="px-6 py-3 text-center bg-green-400">
-									Attendance
+									Kehadiran
 								</th>
 								<th
 									scope="col"
 									rowSpan="2"
 									className="px-6 py-3 text-center bg-teal-400">
-									Grade
+									Nilai
 								</th>
 								<th
 									scope="col"
 									rowSpan="2"
 									className="px-6 py-3 text-center bg-purple-400">
-									Attitude
+									Sikap
 								</th>
 							</tr>
 							<tr>
 								<th scope="col" className="w-6 px-6 py-3 bg-pink-400">
-									Pr
+									Hadir
 								</th>
 								<th scope="col" className="w-6 px-6 py-3 bg-indigo-400">
-									Pe
+									Izin
 								</th>
 								<th scope="col" className="w-6 px-6 py-3 bg-orange-400">
-									Si
+									Sakit
 								</th>
 								<th scope="col" className="w-6 px-6 py-3 bg-amber-400">
-									Al
+									Alpha
 								</th>
 							</tr>
 						</thead>

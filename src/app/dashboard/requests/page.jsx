@@ -1,15 +1,15 @@
-import FormTeacher from "@/components/FormRequest/FormTeacher"
-import styled from "./index.module.css"
+import FormTeacher from "@/components/FormRequest/FormTeacher";
+import styled from "./index.module.css";
 
 export default function Page() {
-    return (
-        <div>
-            <div>
-                <h1>Pengajuan Izin Cuti / Tidak Masuk</h1>
-            </div>
-            <div>
-                <FormTeacher />
-            </div>
-        </div>
-    )
+	return (
+		<div>
+			<div className="p-5 flex flex-row justify-start items-center">
+				<h1 className="text-xl font-bold tracking-wider">Pengajuan dan Perizinan</h1>
+			</div>
+			<div>
+				<FormTeacher />
+			</div>
+		</div>
+	);
 }
