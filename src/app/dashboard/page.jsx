@@ -99,7 +99,80 @@ export default function Page() {
 						</div>
 					</div>
 					{/* Bagian Paling Bawah */}
-					<div></div>
+
+					<div class="w-full relative overflow-x-auto shadow-xl rounded-lg">
+						<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+							<caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+								Struktur Kelas
+							</caption>
+							<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+								<tr>
+									<th scope="col" class="px-6 py-3">
+										Nama
+									</th>
+									<th scope="col" class="px-6 py-3">
+										Jabatan
+									</th>
+									<th scope="col" class="px-6 py-3">
+										Periode
+									</th>
+									<th scope="col" class="px-6 py-3">
+										<span class="sr-only">Edit</span>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="bg-white dark:bg-gray-800">
+									<th
+										scope="row"
+										class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+										Joko Widodo
+									</th>
+									<td class="px-6 py-4">Presiden RI</td>
+									<td class="px-6 py-4">2019 - 2024</td>
+									<td class="px-6 py-4 text-right">
+										<a
+											href="#"
+											class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+											Edit
+										</a>
+									</td>
+								</tr>
+								<tr class="bg-white dark:bg-gray-800">
+									<th
+										scope="row"
+										class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+										Maruf Amien
+									</th>
+									<td class="px-6 py-4">Wakil Presiden RI</td>
+									<td class="px-6 py-4">2019 - 2024</td>
+									<td class="px-6 py-4 text-right">
+										<a
+											href="#"
+											class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+											Edit
+										</a>
+									</td>
+								</tr>
+								<tr class="bg-white dark:bg-gray-800">
+									<th
+										scope="row"
+										class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+										Prabowo Subianto
+									</th>
+									<td class="px-6 py-4">Mentri Keamanan</td>
+									<td class="px-6 py-4">2019 - 2024</td>
+									<td class="px-6 py-4 text-right">
+										<a
+											href="#"
+											class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+											Edit
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 
 				{/* Bagian Kanan Halaman */}
