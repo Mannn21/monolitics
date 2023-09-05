@@ -7,5 +7,5 @@
 }
 
 .content-container {
-    @apply w-full h-full py-6 px-14 box-border overflow-auto bg-slate-100
+    @apply w-full h-full p-5 pl-9 box-border overflow-auto bg-slate-100
 }

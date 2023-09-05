@@ -43,9 +43,9 @@
 }
 
 .iconWrapperOpen {
-    @apply absolute h-7 w-7 -right-10 top-11 flex flex-col justify-center items-center border-2 border-black hover:bg-black hover:text-white cursor-pointer;
+    @apply absolute h-5 w-5 right-2 top-4 flex flex-col justify-center items-center  hover:bg-black hover:text-white cursor-pointer;
 }
 
 .iconWrapperClosed {
-    @apply absolute h-7 w-7 left-2 top-11 flex flex-col justify-center items-center border-2 border-black hover:bg-black hover:text-white cursor-pointer;
+    @apply absolute h-5 w-5 left-2 top-8 flex flex-col justify-center items-center border-2 border-black hover:bg-black hover:text-white cursor-pointer;
 }

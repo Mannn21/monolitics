@@ -52,9 +52,9 @@ const Sidebar = () => {
 				className={isOpen ? styled.iconWrapperOpen : styled.iconWrapperClosed}
 				onClick={() => setIsOpen(!isOpen)}>
 				{isOpen === true ? (
-					<AiOutlineClose size={22} />
+					<AiOutlineClose size={18} />
 				) : (
-					<AiOutlineMenu size={22} />
+					<AiOutlineMenu size={18} />
 				)}
 			</div>
 		</div>

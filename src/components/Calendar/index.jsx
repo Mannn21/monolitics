@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import { Calendar } from "@fullcalendar/core";
 import multiMonthPlugin from "@fullcalendar/multimonth";
+import styled from "./index.module.css"
 
 const CalendarComponent = () => {
 	const calendarElRef = useRef(null);
@@ -23,7 +24,7 @@ const CalendarComponent = () => {
 				headerToolbar: {
 					start: "",
 					center: "",
-					end: "prev next",
+					end: "",
 				},
 				events: [
 					{
@@ -40,7 +41,7 @@ const CalendarComponent = () => {
 		}
 	}, []);
 
-	return <div ref={calendarElRef} className="your-calendar-container"></div>;
+	return <div ref={calendarElRef} className={styled.container}></div>;
 };
 
 export default CalendarComponent;
