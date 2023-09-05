@@ -20,17 +20,27 @@ const CalendarComponent = () => {
 						duration: { months: 1 },
 					},
 				},
+				headerToolbar: {
+					start: "",
+					center: "",
+					end: "prev next",
+				},
+				events: [
+					{
+						start: "2023-09-06",
+						end: "2023-09-07",
+						title: "School",
+						backgroundColor: "#8811ff",
+						display: "background",
+					},
+				],
 			});
 
 			calendar.render();
 		}
 	}, []);
 
-	return (
-		<div ref={calendarElRef} className="your-calendar-container">
-			{/* Kalender akan ditampilkan di dalam elemen ini */}
-		</div>
-	);
+	return <div ref={calendarElRef} className="your-calendar-container"></div>;
 };
 
 export default CalendarComponent;
