@@ -1,0 +1,20 @@
+.bannerWrapper {
+    background-color: #7B54A1;
+    @apply w-full h-52 p-4 flex flex-row justify-between items-center rounded-lg shadow-md
+}
+
+.textWrapper {
+    @apply h-full flex flex-col gap-2 items-start justify-center
+}
+
+.header {
+    @apply text-xl font-bold tracking-wider text-white
+}
+
+.span {
+    @apply text-base font-medium tracking-wider text-white
+}
+
+.button {
+    @apply tracking-wider text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-black hover:text-white focus:ring-4 focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700
+}

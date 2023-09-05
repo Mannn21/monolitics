@@ -1,0 +1,45 @@
+.descriptionClassWrapper {
+    @apply w-full h-32 flex flex-row gap-4
+}
+
+.leftSection {
+    @apply w-1/2 h-full flex flex-row gap-4
+}
+
+.descriptionLeftContainer {
+    @apply w-1/2 h-full flex flex-col rounded-lg shadow-xl
+}
+
+.descriptionSection {
+    @apply w-full h-1/2 flex flex-col gap-1
+}
+
+.descriptionHeader {
+    @apply text-lg font-semibold text-black tracking-wider
+}
+
+.descriptionSpan {
+    @apply flex flex-row text-base font-medium text-black tracking-wider
+}
+
+.descriptionPointContainer {
+    @apply w-full h-1/2 flex flex-row gap-1
+}
+
+.descriptionPointWrapper {
+    @apply w-full h-1/2 flex flex-col gap-1 text-center
+}
+
+.descriptionPointHeader {
+    @apply text-base font-medium text-black tracking-wider
+}
+
+.descriptionPointSpan {
+    @apply text-sm font-medium text-black tracking-wider
+}
+
+/* statistic */
+
+.statisticContainer {
+    @apply w-1/2 h-full flex flex-row rounded-lg shadow-xl
+}
