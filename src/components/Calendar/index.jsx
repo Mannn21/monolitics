@@ -22,9 +22,9 @@ const CalendarComponent = () => {
 					},
 				},
 				headerToolbar: {
-					start: "",
-					center: "",
-					end: "",
+					start: null,
+					center: null,
+					end: null,
 				},
 				events: [
 					{

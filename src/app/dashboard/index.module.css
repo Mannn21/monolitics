@@ -1,4 +1,4 @@
 .container {
-    height: calc(100vh + 183px);
+    height: calc(100vh + 154px);
     @apply w-full relative
 }

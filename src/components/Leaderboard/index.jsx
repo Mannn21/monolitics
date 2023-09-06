@@ -9,7 +9,7 @@ const Leaderboard = () => {
 				<caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
 					Leaderboard Class
 				</caption>
-				<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+				<thead className="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
 					<tr>
 						<th scope="col" className="px-6 py-3">
 							Rank
@@ -27,7 +27,15 @@ const Leaderboard = () => {
 						return (
 							<tr
 								key={user.id}
-								className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+								className={`${
+									index % 2 === 0
+										? "bg-white dark:bg-gray-800"
+										: "bg-gray-400 dark:bg-gray-400"
+								} border-b ${
+									index % 2 === 0
+										? "text-black dark:text-white"
+										: "text-white dark:text-black"
+								}`}>
 								<th
 									scope="row"
 									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

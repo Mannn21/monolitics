@@ -7,7 +7,7 @@
 }
 
 .descriptionLeftContainer {
-    @apply w-1/2 h-full flex flex-col rounded-lg shadow-xl px-2 py-1
+    @apply w-1/2 h-full flex flex-col rounded-lg shadow-xl px-2 py-1 bg-white
 }
 
 .descriptionSection {
@@ -41,5 +41,5 @@
 /* statistic */
 
 .statisticContainer {
-    @apply w-1/2 h-full flex flex-row rounded-lg shadow-xl
+    @apply w-1/2 h-full flex flex-row rounded-lg shadow-xl bg-white
 }
