@@ -31,7 +31,7 @@ export const POST = async (req, res) => {
 					await setDoc(doc(db, "classes", classname), data);
 					return NextResponse.json(
 						{ response: data, message: "Data Kelas Berhasil Dibuat" },
-						{ status: 201, error: null }
+						{ status: 201, success: true }
 					);
 				}
 			} catch (error) {
