@@ -28,7 +28,8 @@ export const POST = async (req, res) => {
         if(password !== confPassword) {return NextResponse.json({response: null, message: "Password Tidak Cocok"}, {status: 400, error: "Bad Request"})}
         if(password === confPassword) {
             try {
-                const encriptedPassword = await bcrypt.hash(confPassword, 10)
+				const salt = await bcrypt.genSalt(10)
+                const encriptedPassword = await bcrypt.hash(confPassword, salt)
                 
             } catch (error) {
                 return NextResponse.json({response: error, message: "Kesalahan Pada Server"}, {status: 500, error: "Internal Server Error"})
