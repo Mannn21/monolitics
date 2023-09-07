@@ -14,16 +14,16 @@ import { NextResponse } from "next/server";
 
 export const POST = async (req, res) => {
 	try {
-		const { classname, size, time, teacher } = await req.json();
-		if (!classname || !size || !time) {
+		const { classroom, size, time, teacher } = await req.json();
+		if (!classroom || !size || !time) {
 			return NextResponse.json(
 				{ response: null, message: "Mohon Lengkapi Data" },
 				{ status: 400, error: "Bad Request" }
 			);
 		}
-		if (classname && size && time) {
+		if (classroom && size && time) {
 			try {
-				const classRef = doc(db, "classes", classname);
+				const classRef = doc(db, "classes", classroom);
 				const classSnap = await getDoc(classRef);
 				if (classSnap.exists()) {
 					return NextResponse.json(
@@ -32,12 +32,12 @@ export const POST = async (req, res) => {
 					);
 				} else {
 					const data = {
-						classname,
+						classroom,
 						size,
 						time,
 						teacher,
 					};
-					await setDoc(doc(db, "classes", classname), data);
+					await setDoc(doc(db, "classes", classroom), data);
 					return NextResponse.json(
 						{ response: data, message: "Data Kelas Berhasil Dibuat" },
 						{ status: 201, success: true }
@@ -60,16 +60,16 @@ export const POST = async (req, res) => {
 
 export const PUT = async (req, res) => {
 	try {
-		const { classname, teacher, size, status, time } = await req.json();
-		if (!classname || !teacher || !size || !status || !time) {
+		const { classroom, teacher, size, status, time } = await req.json();
+		if (!classroom || !teacher || !size || !status || !time) {
 			return NextResponse.json(
 				{ response: null, message: "Mohon Lengkapi Data" },
 				{ status: 401, error: "Bad Request" }
 			);
 		}
-		if (classname && teacher && size && status && time) {
+		if (classroom && teacher && size && status && time) {
 			try {
-				const classRef = doc(db, "classes", classname);
+				const classRef = doc(db, "classes", classroom);
 				const classSnap = await getDoc(classRef);
 				if (classSnap.exists()) {
 					const q = query(
@@ -88,8 +88,9 @@ export const PUT = async (req, res) => {
 						);
 					}
 					if (teacherData.length > 0) {
+						const teacherRef = doc(db, "admin", teacherData[0].id);
 						const data = {
-							classname,
+							classroom,
 							teacher: {
 								id: teacherData[0].id,
 								name: teacher,
@@ -98,6 +99,9 @@ export const PUT = async (req, res) => {
 							status,
 							time,
 						};
+						await updateDoc(teacherRef, {
+							classroom: classroom
+						})
 						await updateDoc(classRef, data);
 						return NextResponse.json(
 							{
