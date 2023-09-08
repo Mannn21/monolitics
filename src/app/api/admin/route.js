@@ -171,17 +171,10 @@ export const POST = async (req, res) => {
 
 export const PUT = async (req, res) => {
 	try {
-		const {
-			phoneNumber,
-			salary,
-			classroom,
-			password,
-			newPassword,
-			confNewPassword,
-		} = await req.json();
+		const { phoneNumber, classroom, password, newPassword, confNewPassword } =
+			await req.json();
 		if (
 			!phoneNumber ||
-			!salary ||
 			!classroom ||
 			!password ||
 			!newPassword ||
@@ -194,7 +187,6 @@ export const PUT = async (req, res) => {
 		}
 		if (
 			phoneNumber &&
-			salary &&
 			classroom &&
 			password &&
 			newPassword &&
@@ -235,156 +227,86 @@ export const PUT = async (req, res) => {
 							);
 						}
 						if (newPassword === confNewPassword) {
-							const salaryRef = doc(db, "salary", teacherData[0].id);
-							const salarySnap = await getDoc(salaryRef);
-							const teacherRef = doc(db, "admin", teacherData[0].id);
-							const teacherSnap = await getDoc(teacherRef);
-							const salt = await bcrypt.genSalt(10);
-							const encriptedPassword = await bcrypt.hash(
-								confNewPassword,
-								salt
-							);
-							const data = {
-								name: teacherData[0].name,
-								phoneNumber,
-								classroom,
-								salary,
-							};
-							if (classroom === teacherData[0].classroom) {
-								if (salarySnap.exists() && teacherSnap.exists()) {
-									await updateDoc(salaryRef, { grossSalary: salary });
-									await updateDoc(teacherRef, {
-										password: encriptedPassword,
-									});
+							const classRef = doc(db, "classes", classroom);
+							const classSnap = await getDoc(classRef);
+							if (classSnap.exists()) {
+								if (classSnap.data().teacher !== null) {
 									return NextResponse.json(
-										{ response: data, message: "Password Berhasil Diubah" },
-										{ status: 200, success: true }
-									);
-								} else {
-									await setDoc(doc(db, "salary", teacherData[0].id), {
-										grossSalary: salary,
-										teacherId: teacherData[0].id,
-									});
-									await updateDoc(teacherRef, {
-										password: encriptedPassword,
-										salary: { id: teacherData[0].id },
-									});
-									return NextResponse.json(
-										{ response: data, message: "Password Berhasil Diubah" },
-										{ status: 200, success: true }
+										{ response: null, message: "Kelas Sudah Memiliki Guru" },
+										{ status: 409, error: "Conflict" }
 									);
 								}
-							}
-							if (classroom !== teacherData[0].classroom) {
-								const classRef = doc(db, "classes", classroom);
-								const classSnap = await getDoc(classRef);
-								if (classSnap.exists()) {
+								if (classSnap.data().teacher === null) {
 									const q = query(
 										collection(db, "classes"),
 										where("teacher.id", "==", teacherData[0].id)
 									);
-									const datas = await getDocs(q);
-									const classData = datas.docs.map(doc => ({
+									const searchClass = await getDocs(q);
+									const classResult = searchClass.docs.map(doc => ({
 										id: doc.id,
 										...doc.data(),
 									}));
-									if (classData.length === 0) {
-										if (salarySnap.exists() && teacherSnap.exists()) {
-											await updateDoc(salaryRef, { grossSalary: salary });
-											await updateDoc(teacherRef, {
-												password: encriptedPassword,
-											});
-											await updateDoc(classRef, {
-												teacher: {
-													id: teacherData[0].id,
-													name: teacherData[0].name,
-												},
-											});
-											return NextResponse.json(
-												{
-													response: data,
-													message: "Data Guru Berhasil Diubah",
-												},
-												{ status: 200, success: true }
-											);
-										} else {
-											await setDoc(doc(db, "salary", teacherData[0].id), {
-												grossSalary: salary,
-												teacherId: teacherData[0].id,
-											});
-											await updateDoc(classRef, {
-												teacher: {
-													id: teacherData[0].id,
-													name: teacherData[0].name,
-												},
-											});
-											await updateDoc(teacherRef, {
-												password: encriptedPassword,
-												salary: { id: teacherData[0].id },
-											});
-											return NextResponse.json(
-												{
-													response: data,
-													message: "Data Guru Berhasil Diubah",
-												},
-												{ status: 200, success: true }
-											);
-										}
-									}
-									if (classData.length > 0) {
-										const batch = writeBatch(db);
-										datas.forEach(doc => {
-											batch.update(doc.ref, { teacher: null });
-										});
-										await batch.commit();
-										if (salarySnap.exists() && teacherSnap.exists()) {
-											await updateDoc(salaryRef, { grossSalary: salary });
-											await updateDoc(teacherRef, {
-												password: encriptedPassword,
-											});
-											await updateDoc(classRef, {
-												teacher: {
-													id: teacherData[0].id,
-													name: teacherData[0].name,
-												},
-											});
-											return NextResponse.json(
-												{
-													response: data,
-													message: "Data Guru Berhasil Diubah",
-												},
-												{ status: 200, success: true }
-											);
-										} else {
-											await setDoc(doc(db, "salary", teacherData[0].id), {
-												grossSalary: salary,
-												teacherId: teacherData[0].id,
-											});
-											await updateDoc(classRef, {
-												teacher: {
-													id: teacherData[0].id,
-													name: teacherData[0].name,
-												},
-											});
-											await updateDoc(teacherRef, {
-												password: encriptedPassword,
-												salary: { id: teacherData[0].id },
-											});
-											return NextResponse.json(
-												{
-													response: data,
-													message: "Data Guru Berhasil Diubah",
-												},
-												{ status: 200, success: true }
-											);
-										}
-									}
-								} else {
-									return NextResponse.json(
-										{ response: null, message: "Data Kelas Tidak Ditemukan" },
-										{ status: 404, error: "Not Found" }
+									const teacherRef = doc(db, "admin", teacherData[0].id);
+									const salt = await bcrypt.genSalt(10);
+									const encriptedPassword = await bcrypt.hash(
+										confNewPassword,
+										salt
 									);
+									const responseData = {
+										teacher: teacherData[0].name,
+										classroom,
+										phoneNumber,
+									};
+									if (classResult.length === 0) {
+										await updateDoc(teacherRef, {
+											classroom: classroom,
+											password: encriptedPassword,
+										});
+										await updateDoc(classRef, {
+											teacher: {
+												id: teacherData[0].id,
+												name: teacherData[0].name,
+											},
+										});
+										return NextResponse.json(
+											{
+												response: responseData,
+												message: "Data Guru Berhasil Diperbarui",
+											},
+											{ status: 200, success: true }
+										);
+									}
+									if (classResult.length > 0) {
+										const classByTeacherRef = doc(
+											db,
+											"classes",
+											classResult[0].id
+										);
+										await updateDoc(classByTeacherRef, { teacher: null });
+										await updateDoc(teacherRef, {
+											classroom: classroom,
+											password: encriptedPassword,
+										});
+										await updateDoc(classRef, {
+											teacher: {
+												id: teacherData[0].id,
+												name: teacherData[0].name,
+											},
+										});
+										return NextResponse.json(
+											{
+												response: responseData,
+												message: "Data Guru Berhasil Diperbarui",
+											},
+											{ status: 200, success: true }
+										);
+									}
 								}
+							} else {
+								return NextResponse.json(
+									{ response: null, message: "Data Kelas Tidak Ada" },
+									{ status: 404, error: "Not Found" }
+								);
 							}
 						}
 					}
@@ -395,6 +317,25 @@ export const PUT = async (req, res) => {
 					{ status: 500, error: "Internal Server Error" }
 				);
 			}
+		}
+	} catch (error) {
+		return NextResponse.json(
+			{ response: error, message: "Kesalahan Pada Server" },
+			{ status: 500, error: "Internal Server Error" }
+		);
+	}
+};
+
+export const DELETE = async (req, res) => {
+	try {
+		const { teacher, phoneNumber, password } = await req.json();
+		if (!teacher || !phoneNumber || !password) {
+			return NextResponse.json(
+				{ response: null, message: "Mohon Lengkapi Data" },
+				{ status: 400, error: "Bad Request" }
+			);
+		}
+		if (teacher && phoneNumber && password) {
 		}
 	} catch (error) {
 		return NextResponse.json(
