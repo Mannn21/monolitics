@@ -2,6 +2,39 @@ import { doc, updateDoc, deleteDoc, getDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 import { NextResponse } from "next/server";
 
+export const GET = async (req, context) => {
+	try {
+		const { params } = context;
+		const id = params.id;
+		if (!id) {
+			return NextResponse.json(
+				{ response: null, message: "Mohon Lengkapi Data" },
+				{ status: 400, error: "Bad Request" }
+			);
+		}
+		if (id) {
+			const classRef = doc(db, "classes", id);
+			const classResult = await getDoc(classRef);
+			if (classResult.exists()) {
+				const classData = classResult.data()
+				const teacherRef = doc(db, "admin", classData.teacher.id)
+				const teacherResult = await getDoc(teacherRef)
+				// cari data murid
+			} else {
+				return NextResponse.json(
+					{ response: null, message: "Data Kelas Tidak Ditemukan" },
+					{ status: 404, error: "Not Found" }
+				);
+			}
+		}
+	} catch (error) {
+		return NextResponse.json(
+			{ response: error, message: "Kesalahan Pada Server" },
+			{ status: 500, error: "Internal Server Error" }
+		);
+	}
+};
+
 export const DELETE = async (req, context) => {
 	try {
 		const { params } = context;

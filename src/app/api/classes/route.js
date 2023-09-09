@@ -12,6 +12,40 @@ import { db } from "@/utils/firebase";
 import { v4 as uuidv4 } from "uuid";
 import { NextResponse } from "next/server";
 
+export const GET = async () => {
+	try {
+		const datas = await getDocs(collection(db, "classes"));
+		const data = [];
+		datas.forEach(doc => {
+			const teacherData = doc.data().teacher;
+			const teacherName = teacherData ? teacherData.name : null;
+			data.push({
+				classroom: doc.data().classroom,
+				teacher: teacherName,
+				size: doc.data().size,
+				time: doc.data().time,
+			});
+		});
+		if (data.length < 1) {
+			return NextResponse.json(
+				{ response: data, message: "Data Kelas Kosong" },
+				{ status: 200, success: true }
+			);
+		}
+		if (data.length >= 1) {
+			return NextResponse.json(
+				{ response: data, message: "Data Kelas Ditemukan" },
+				{ status: 200, success: true }
+			);
+		}
+	} catch (error) {
+		return NextResponse.json(
+			{ response: error, message: "Kesalahan Pada Server" },
+			{ status: 500, error: "Internal Server Error" }
+		);
+	}
+};
+
 export const POST = async (req, res) => {
 	try {
 		const { classroom, size, time, teacher } = await req.json();
@@ -100,8 +134,8 @@ export const PUT = async (req, res) => {
 							time,
 						};
 						await updateDoc(teacherRef, {
-							classroom: classroom
-						})
+							classroom: classroom,
+						});
 						await updateDoc(classRef, data);
 						return NextResponse.json(
 							{
