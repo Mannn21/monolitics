@@ -15,6 +15,46 @@ import bcrypt from "bcrypt";
 
 export const GET = async (req, res) => {
 	try {
+		const q = query(collection(db, "admin"), where("role", "==", "teacher"));
+		const datas = await getDocs(q);
+		const data = [];
+		const promises = [];
+
+		datas.forEach(item => {
+			const salaryRef = doc(db, "salary", item.data().salary.id);
+			const getSalary = getDoc(salaryRef);
+			promises.push(
+				getSalary.then(salaryDoc => {
+					let salaryData = null;
+					if (salaryDoc.exists()) {
+						salaryData = salaryDoc.data().grossSalary;
+					}
+					data.push({
+						name: item.data().name,
+						classroom: item.data().classroom,
+						address: item.data().address,
+						birthday: item.data().birthday,
+						phoneNumber: item.data().phoneNumber,
+						imageName: item.data().image.imageName,
+						imageUrl: item.data().image.url,
+						salary: salaryData,
+					});
+				})
+			);
+		});
+		await Promise.all(promises);
+		if (data.length < 1) {
+			return NextResponse.json(
+				{ response: null, message: "Data Guru Kosong" },
+				{ status: 200, success: true }
+			);
+		}
+		if (data.length >= 1) {
+			return NextResponse.json(
+				{ response: data, message: "Data Guru Ditemukan" },
+				{ status: 200, success: true }
+			);
+		}
 	} catch (error) {
 		return NextResponse.json(
 			{ response: error, message: "Kesalahan Pada Server" },
@@ -123,13 +163,14 @@ export const POST = async (req, res) => {
 									phoneNumber,
 									image: {
 										url,
-										imageName
+										imageName,
 									},
 									password: encriptedPassword,
 									classroom,
 									salary: {
 										id: data.teacherId,
 									},
+									role: "teacher",
 								};
 								const responseData = {
 									name,
@@ -170,5 +211,3 @@ export const POST = async (req, res) => {
 		);
 	}
 };
-
-

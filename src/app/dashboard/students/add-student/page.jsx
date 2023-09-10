@@ -43,6 +43,7 @@ export default function AddUser() {
 
 	const MySwal = withReactContent(Swal);
 
+
 	const handleImage = e => {
 		setImage(e.target.files[0]);
 		setFile(URL.createObjectURL(e.target.files[0]));
