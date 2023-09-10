@@ -15,6 +15,26 @@ import bcrypt from "bcrypt";
 
 export const GET = async (req, res) => {
 	try {
+		const getAllDatas = await getDocs(collection(db, "students"));
+		const datas = [];
+		getAllDatas.forEach(doc => {
+			datas.push({
+				name: doc.data().name,
+				birthday: doc.data().birthday,
+				address: doc.data().address,
+				classroom: doc.data().classroom,
+				parent: doc.data().parent,
+				phoneNumber: doc.data().phoneNumber,
+				imageName: doc.data().image.imageName,
+				imageUrl: doc.data().image.url,
+			});
+		});
+		if(datas.length < 1) {
+			return NextResponse.json({response: null, message: "Data Siswa Kosong"}, {status: 200, success: true})
+		}
+		if(datas.length >= 1) {
+			return NextResponse.json({response: datas, message: "Data Siswa Berhasil Ditemukan"}, {status: 200, success: true})
+		}
 	} catch (error) {
 		return NextResponse.json(
 			{ response: error, message: "Kesalahan Pada Server" },
@@ -112,8 +132,8 @@ export const POST = async (req, res) => {
 							return NextResponse.json(
 								{ response: "Ok", message: "Data Siswa Berhasil Dibuat" },
 								{ status: 201, success: true }
-								);
-							} else {
+							);
+						} else {
 							return NextResponse.json(
 								{ response: null, message: "Data Kelas Tidak Ditemukan" },
 								{ status: 404, error: "Not Found" }
